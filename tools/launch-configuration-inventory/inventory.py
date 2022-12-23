@@ -87,10 +87,11 @@ def get_credentials_for_profile(profile_name):
 
     try:
         session = boto3.Session(profile_name=profile_name)
-        session_credentials = session.get_credentials() 
+        session_credentials = session.get_credentials()
         credentials = {
             'aws_access_key_id'     : session_credentials.access_key,
-            'aws_secret_access_key' : session_credentials.secret_key
+            'aws_secret_access_key' : session_credentials.secret_key,
+            'aws_session_token'     : session_credentials.token,
         }
         return credentials
 
@@ -112,7 +113,7 @@ def paginate(method, **kwargs):
     except ClientError as e:
         message = 'Error describing instances: {}'.format(e)
         logger.error(message)
-        raise Exception(message)
+        #raise Exception(message)
 
 # Gets a List of Accounts in Organization
 def get_organization_accounts(credentials):
